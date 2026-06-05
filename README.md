@@ -115,18 +115,22 @@ If the same account is active on another device, Shopno shows a device conflict 
 
 Shopno can expose premium model names while hiding all provider details.
 
-Users may see categories such as:
+Users may see model names such as:
 
-- GPT coding models
-- Claude coding models
-- Gemini models
-- NVIDIA models
-- OpenRouter models
-- Groq models
-- Pollinations models
-- GitHub Copilot models
-- Codex login models
-- Ollama local models
+- Llama 3.3 70B Versatile
+- Step 3.7 Flash
+- Step 3.5 Flash
+- Nemotron 3 Super 120B
+- Nemotron 3 Nano 30B
+- GPT OSS 120B
+- DeepSeek V4 Flash
+- Qwen 3.5 397B
+- Kimi K2.6
+- Claude Haiku 4.5
+- GPT-5 Mini
+- Gemini 3.5 Flash
+- Gemini 3.1 Pro
+- Local Ollama Models
 
 The exact list is controlled from the admin panel by plan, availability, and business cost.
 
