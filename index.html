@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shopno AI CLI - managed AI coding agent with SaaS cloud models, local Ollama, secure subscriptions, and developer tools.">
+  <title>Shopno AI CLI - Managed AI Coding Agent</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050713;
+      --surface: #0b1020;
+      --surface-2: #111827;
+      --line: rgba(255,255,255,.12);
+      --text: #f8fafc;
+      --muted: #a3adbd;
+      --cyan: #22d3ee;
+      --green: #34d399;
+      --violet: #8b5cf6;
+      --rose: #fb7185;
+      --amber: #f59e0b;
+      --blue: #60a5fa;
+      --radius: 8px;
+      --shadow: 0 24px 80px rgba(0,0,0,.34);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Outfit, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(120deg, rgba(34,211,238,.08), transparent 28%),
+        linear-gradient(300deg, rgba(52,211,153,.08), transparent 30%),
+        var(--bg);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(1160px, calc(100% - 36px)); margin: 0 auto; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      border-bottom: 1px solid var(--line);
+      background: rgba(5,7,19,.82);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: 0;
+      font-size: 20px;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,.2);
+      box-shadow: 0 0 24px rgba(34,211,238,.22);
+      object-fit: cover;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--line);
+      font-weight: 700;
+      color: var(--text);
+      background: rgba(255,255,255,.06);
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); border-color: rgba(34,211,238,.55); }
+    .btn.primary { background: linear-gradient(135deg, var(--cyan), var(--violet)); border: 0; color: white; }
+    .btn.green { background: linear-gradient(135deg, var(--green), #14b8a6); border: 0; color: #04111a; }
+
+    .hero {
+      min-height: calc(100vh - 72px);
+      display: grid;
+      align-items: center;
+      padding: 70px 0 42px;
+      position: relative;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr);
+      gap: 44px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid rgba(34,211,238,.26);
+      border-radius: 999px;
+      color: var(--cyan);
+      background: rgba(34,211,238,.08);
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(42px, 7vw, 82px);
+      line-height: .96;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      margin: 22px 0 0;
+      max-width: 670px;
+      color: #c8d2e3;
+      font-size: 19px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .trust-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 36px;
+      max-width: 660px;
+    }
+
+    .mini {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 14px;
+      background: rgba(255,255,255,.045);
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .mini strong {
+      display: block;
+      color: var(--text);
+      font-size: 17px;
+      margin-bottom: 2px;
+    }
+
+    .terminal {
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(17,24,39,.96), rgba(3,7,18,.98));
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .terminal-top {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 14px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-family: "Fira Code", monospace;
+      font-size: 12px;
+    }
+
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--rose); }
+    .dot:nth-child(2) { background: var(--amber); }
+    .dot:nth-child(3) { background: var(--green); margin-right: 8px; }
+
+    .terminal-body {
+      padding: 20px;
+      font-family: "Fira Code", monospace;
+      font-size: 13px;
+      color: #d8e2f2;
+    }
+
+    .line { display: flex; gap: 10px; margin: 10px 0; }
+    .num { color: var(--cyan); width: 28px; flex: 0 0 28px; }
+    .ok { color: var(--green); }
+    .muted { color: var(--muted); }
+
+    section { padding: 78px 0; }
+    .section-head { max-width: 740px; margin-bottom: 28px; }
+    .section-head h2 { margin: 0 0 10px; font-size: clamp(30px, 4vw, 48px); line-height: 1.05; }
+    .section-head p { margin: 0; color: var(--muted); font-size: 17px; }
+
+    .grid { display: grid; gap: 14px; }
+    .features { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      background: rgba(255,255,255,.045);
+    }
+    .card h3 { margin: 0 0 8px; font-size: 19px; }
+    .card p { margin: 0; color: var(--muted); }
+    .tag {
+      display: inline-flex;
+      margin-bottom: 14px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      color: #07111c;
+      background: var(--cyan);
+    }
+    .tag.green { background: var(--green); }
+    .tag.violet { background: var(--violet); color: #fff; }
+    .tag.amber { background: var(--amber); }
+
+    .downloads { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .download-card .icon { font-size: 34px; margin-bottom: 12px; }
+    .download-card .btn { width: 100%; margin-top: 18px; }
+    .download-card .history { display: block; text-align: center; color: var(--muted); margin-top: 10px; font-weight: 700; font-size: 13px; }
+
+    .models {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .model {
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 999px;
+      padding: 9px 12px;
+      background: rgba(255,255,255,.05);
+      color: #dbe7f7;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .pricing { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .price {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+      background: rgba(255,255,255,.05);
+    }
+    .price.featured { border-color: rgba(34,211,238,.45); box-shadow: 0 0 0 1px rgba(34,211,238,.16) inset; }
+    .price h3 { margin: 0; font-size: 26px; }
+    .price .amount { margin: 10px 0 18px; font-size: 38px; font-weight: 800; }
+    .price ul { margin: 0 0 24px; padding-left: 20px; color: var(--muted); }
+    .price li { margin: 8px 0; }
+
+    .cta {
+      text-align: center;
+      border: 1px solid rgba(34,211,238,.24);
+      border-radius: var(--radius);
+      padding: 44px 24px;
+      background:
+        linear-gradient(135deg, rgba(34,211,238,.12), rgba(139,92,246,.1)),
+        rgba(255,255,255,.035);
+    }
+    .cta h2 { margin: 0 0 12px; font-size: clamp(30px, 4vw, 48px); }
+    .cta p { margin: 0 auto 24px; max-width: 720px; color: #c8d2e3; }
+    .cta .hero-actions { justify-content: center; margin-top: 0; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      padding: 34px 0;
+    }
+    .footer-grid {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-links { display: flex; gap: 14px; flex-wrap: wrap; }
+    .footer-links a { color: #dbe7f7; font-weight: 700; }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hero { padding-top: 44px; }
+      .hero-grid, .features, .downloads, .pricing { grid-template-columns: 1fr; }
+      .trust-row { grid-template-columns: 1fr; }
+      h1 { font-size: 46px; }
+    }
+
+    @media (max-width: 520px) {
+      .wrap { width: min(100% - 24px, 1160px); }
+      .nav { height: 66px; }
+      .brand span { font-size: 17px; }
+      .hero-actions .btn { width: 100%; }
+      .terminal-body { font-size: 12px; padding: 14px; }
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const SHOPNO_SERVER = "https://surveymentor.org/shopno";
+    const links = {
+      login: `${SHOPNO_SERVER}/login.php`,
+      register: `${SHOPNO_SERVER}/register.php`,
+      dashboard: `${SHOPNO_SERVER}/dashboard.php`,
+      support: `${SHOPNO_SERVER}/support.php`,
+      history: `${SHOPNO_SERVER}/version_history.php`,
+      home: `${SHOPNO_SERVER}/index.php`,
+      logo: `${SHOPNO_SERVER}/logo.png`
+    };
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("[data-server-link]").forEach((el) => {
+        const key = el.getAttribute("data-server-link");
+        if (links[key]) el.setAttribute("href", links[key]);
+      });
+      document.querySelectorAll("[data-logo]").forEach((el) => {
+        el.setAttribute("src", links.logo);
+      });
+    });
+  </script>
+
+  <header>
+    <div class="wrap nav">
+      <a class="brand" href="#">
+        <img data-logo alt="Shopno AI logo">
+        <span>Shopno AI CLI</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#features">Features</a>
+        <a href="#downloads">Download</a>
+        <a href="#models">Models</a>
+        <a href="#plans">Plans</a>
+        <a data-server-link="support" href="#">Support</a>
+      </nav>
+      <a class="btn primary" data-server-link="login" href="#">Sign In</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <div class="eyebrow">Managed SaaS gateway + local Ollama runtime</div>
+          <h1>Shopno AI CLI</h1>
+          <p class="lead">
+            A professional AI coding command center with managed cloud models, secure subscription access, one-device login, local Ollama mode, and a clean binary release for users.
+          </p>
+          <div class="hero-actions">
+            <a class="btn primary" data-server-link="register" href="#">Create Account</a>
+            <a class="btn green" data-server-link="dashboard" href="#">Download App</a>
+            <a class="btn" data-server-link="login" href="#">Login Portal</a>
+          </div>
+          <div class="trust-row">
+            <div class="mini"><strong>No user API keys</strong>Managed cloud access through Shopno gateway.</div>
+            <div class="mini"><strong>Local unlimited</strong>Ollama runs on the user's own device.</div>
+            <div class="mini"><strong>Admin control</strong>Models, tiers, quotas, downloads, and support.</div>
+          </div>
+        </div>
+
+        <div class="terminal" aria-label="Shopno command center preview">
+          <div class="terminal-top"><span class="dot"></span><span class="dot"></span><span class="dot"></span>Shopno Command Center</div>
+          <div class="terminal-body">
+            <div class="line"><span class="num">1</span><span>START SHOPNO CLI <span class="muted">(54 features enabled)</span></span></div>
+            <div class="line"><span class="num">2</span><span>CHOOSE MODEL FOR USE <span class="ok">managed cloud</span></span></div>
+            <div class="line"><span class="num">3</span><span>OLLAMA LOCAL <span class="ok">unlimited local runtime</span></span></div>
+            <div class="line"><span class="num">4</span><span>REMOTE CONTROL WITH WHATSAPP</span></div>
+            <div class="line"><span class="num">5</span><span>SAVED PROFILES</span></div>
+            <div class="line muted">Loading managed catalog...</div>
+            <div class="line ok">41 models available for this account</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Built For A Real AI Software Business</h2>
+          <p>Shopno keeps the user experience simple while the server controls keys, plans, limits, model access, downloads, and support.</p>
+        </div>
+        <div class="grid features">
+          <article class="card"><span class="tag">Cloud</span><h3>Managed Model Catalog</h3><p>Users select model names only. Provider keys, routing, and fallback stay hidden behind the SaaS gateway.</p></article>
+          <article class="card"><span class="tag green">Local</span><h3>Unlimited Ollama Local</h3><p>Local models run on the user's own CPU/GPU/RAM and do not count against SaaS cloud quotas.</p></article>
+          <article class="card"><span class="tag violet">Security</span><h3>Device-Bound Access</h3><p>One account is bound to one active device with logout-all-session recovery for real users.</p></article>
+          <article class="card"><span class="tag amber">Admin</span><h3>Full SaaS Control</h3><p>Control tiers, quotas, payment proof, SMTP, announcements, downloads, and maintenance mode from the dashboard.</p></article>
+          <article class="card"><span class="tag">Gateway</span><h3>Fallback Ready</h3><p>Enabled cloud routes can fail over server-side so users do not handle keys or provider setup.</p></article>
+          <article class="card"><span class="tag green">Support</span><h3>Customer Help Flow</h3><p>Landing support, admin replies, password reset, renewal mail, and announcement email are built in.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="downloads">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Download Shopno Software</h2>
+          <p>GitHub Pages is static, so these buttons send users to the secure Shopno portal where download links and version history are controlled by admin.</p>
+        </div>
+        <div class="grid downloads">
+          <article class="card download-card">
+            <div class="icon">Windows</div>
+            <h3>Shopno CLI for Windows</h3>
+            <p>Recommended desktop release with console launcher and managed cloud model selection.</p>
+            <a class="btn primary" data-server-link="dashboard" href="#">Download From Portal</a>
+            <a class="history" data-server-link="history" href="#">Version history</a>
+          </article>
+          <article class="card download-card">
+            <div class="icon">macOS</div>
+            <h3>Shopno CLI for Mac</h3>
+            <p>Use the portal to check available Mac packages and future release updates.</p>
+            <a class="btn" data-server-link="dashboard" href="#">Open Download Portal</a>
+            <a class="history" data-server-link="history" href="#">Version history</a>
+          </article>
+          <article class="card download-card">
+            <div class="icon">Linux</div>
+            <h3>Shopno CLI for Linux</h3>
+            <p>Use the portal to check Linux builds, release notes, and admin-controlled links.</p>
+            <a class="btn" data-server-link="dashboard" href="#">Open Download Portal</a>
+            <a class="history" data-server-link="history" href="#">Version history</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="models">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Models Users Can Choose</h2>
+          <p>The live server decides the exact available list by plan. This static page shows the product categories without exposing provider keys or routing.</p>
+        </div>
+        <div class="models">
+          <span class="model">GPT coding models</span>
+          <span class="model">Claude coding models</span>
+          <span class="model">Gemini models</span>
+          <span class="model">NVIDIA models</span>
+          <span class="model">OpenRouter models</span>
+          <span class="model">Groq models</span>
+          <span class="model">Pollinations models</span>
+          <span class="model">GitHub Copilot models</span>
+          <span class="model">Codex login models</span>
+          <span class="model">Ollama local models</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="plans">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Choose A Plan</h2>
+          <p>Plans and prices are finalized in the secure server portal. Cloud quotas apply to managed SaaS models only; local Ollama stays unlimited.</p>
+        </div>
+        <div class="grid pricing">
+          <article class="price">
+            <h3>Pro</h3>
+            <div class="amount">Developer</div>
+            <ul>
+              <li>Managed cloud model access</li>
+              <li>Generous daily SaaS requests</li>
+              <li>Local Ollama unlimited</li>
+              <li>Download portal access</li>
+            </ul>
+            <a class="btn primary" data-server-link="register" href="#">Start Pro</a>
+          </article>
+          <article class="price featured">
+            <h3>Ultra</h3>
+            <div class="amount">Power User</div>
+            <ul>
+              <li>Higher managed cloud quota</li>
+              <li>Premium model tier access</li>
+              <li>Fallback-ready SaaS gateway</li>
+              <li>Priority product workflow</li>
+            </ul>
+            <a class="btn green" data-server-link="register" href="#">Upgrade To Ultra</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="cta">
+          <h2>Start With Shopno AI CLI</h2>
+          <p>Create an account, download the launcher, choose a managed cloud model or run local Ollama, and use Shopno as your AI coding command center.</p>
+          <div class="hero-actions">
+            <a class="btn primary" data-server-link="register" href="#">Create Account</a>
+            <a class="btn" data-server-link="support" href="#">Contact Support</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div>Copyright 2026 Sourov / Cyber Prince. Shopno AI CLI.</div>
+      <div class="footer-links">
+        <a data-server-link="login" href="#">Login</a>
+        <a data-server-link="register" href="#">Register</a>
+        <a data-server-link="support" href="#">Support</a>
+        <a data-server-link="home" href="#">Server Home</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
