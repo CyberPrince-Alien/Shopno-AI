@@ -4,8 +4,8 @@
   <h1>Shopno AI CLI</h1>
 
   <p>
-    <strong>Premium managed AI coding agent platform for developers.</strong><br>
-    Cloud models, local Ollama, subscriptions, secure gateway, and professional binary distribution.
+    <strong>AI command center for coding, automation, research, local models, cloud models, and human workflows.</strong><br>
+    v1.0.3 · Made By Bangladesh · Built by Sourov / Cyber Prince.
   </p>
 
   <p>
@@ -19,6 +19,8 @@
     |
     <a href="https://surveymentor.org/shopno/login.php"><strong>Login</strong></a>
     |
+    <a href="https://github.com/CyberPrince-Alien/Shopno-AI"><strong>GitHub Repo</strong></a>
+    |
     <a href="https://surveymentor.org/shopno/support.php"><strong>Support</strong></a>
     |
     <a href="https://surveymentor.org/shopno/version_history.php"><strong>Version History</strong></a>
@@ -29,11 +31,13 @@
 
 ## What Is Shopno AI CLI?
 
-Shopno AI CLI is a professional AI command center for coding, project work, local automation, and managed cloud AI access.
+Shopno AI CLI is a professional AI command center for coding, project work, local automation, research, browser work, local AI, managed cloud AI access, and admin-controlled SaaS distribution.
 
 Users do not need to bring provider API keys. They log in with a Shopno account, choose an enabled model, and work through the protected Shopno SaaS gateway. Admins keep control of subscriptions, quotas, model access, provider keys, downloads, announcements, support messages, maintenance mode, and payment approvals.
 
-Shopno is built for a real software business: users get a polished CLI experience, while the owner keeps server-side control of cost, security, and product access.
+Shopno is built for a real software business: users get a polished CLI experience, while the owner keeps server-side control of cost, security, model access, provider keys, SMTP, downloads, subscriptions, and product access.
+
+Version `v1.0.3` adds the restored Gemini CLI-style responsive logo, `Made By Bangladesh` branding, large paste mode, latest-session resume, stronger SMTP handling, and updated public documentation.
 
 ---
 
@@ -41,6 +45,7 @@ Shopno is built for a real software business: users get a polished CLI experienc
 
 ```text
 READY  Shopno AI Coding Agent
+v1.0.3  Made By Bangladesh
 
 +----------------------------------------------------------------+
 | SHOPNO COMMAND CENTER                                          |
@@ -58,9 +63,15 @@ READY  Shopno AI Coding Agent
 | [4] REMOTE CONTROL WITH WHATSAPP                               |
 |      Pair WhatsApp and operate Shopno remotely                 |
 |                                                                |
-| [5] SAVED PROFILES                                             |
-| [6] LOGOUT USER                                                |
-| [7] EXIT COMMAND                                               |
+| [5] CYBER PRINCE LOCAL LLM                                     |
+|      Offline/local GGUF-style models through Ollama            |
+|                                                                |
+| [6] BITNET LOCAL LLM                                           |
+|      1-bit and tiny local models when supported                |
+|                                                                |
+| [7] SAVED PROFILES                                             |
+| [8] LOGOUT USER                                                |
+| [9] EXIT COMMAND                                               |
 +----------------------------------------------------------------+
 ```
 
@@ -73,6 +84,14 @@ READY  Shopno AI Coding Agent
 | Managed Cloud Models | Users choose model names only; API keys and provider routing stay hidden. |
 | Secure SaaS Gateway | Server-side auth, device binding, tier checks, quota enforcement, and fallback. |
 | Local Ollama | Unlimited local model usage on the user's own machine. No SaaS quota counted. |
+| Big Paste Mode | Use `<<<` and `>>>` to paste long files, SQL, logs, transcripts, and documents safely. |
+| Session Resume | Saved sessions, `/resume-latest`, `/sessions`, `/resume <id>`, and compaction. |
+| Automation Core | IFTTT/n8n-style recipes, connectors, outbox, retries, webhooks, email, blogs, Drive, Sheets, YouTube, and browser workflows. |
+| Browser Bridge | Open pages, inspect elements, click, type, screenshot, and record repeatable workflows. |
+| Research Core | Evidence notebooks, source cards, repo digest, project graph, and semantic context. |
+| Proof Core | Eval harness, trace timeline, vault, repo digest, and React/Vite/Next/Tailwind diagnostics. |
+| Voice Core | Low-resource typed voice loop, profiles, TTS preview, and consent-gated clone sample registration. |
+| PowerToys Core | Command palette, modules, quick actions, workspaces, backup/restore, awake, file locksmith, and hotkeys. |
 | Subscription System | Free, Pro, and Ultra access can be controlled from the admin panel. |
 | Model Tier Control | Admin can enable/disable models and assign Free/Pro/Ultra access. |
 | Key Vault | Provider keys and account tokens are stored server-side and protected. |
@@ -106,6 +125,8 @@ Ollama Local is intentionally unlimited because it uses the user's own CPU/GPU/R
 4. Select `CHOOSE MODEL FOR USE` for managed cloud models.
 5. Select `OLLAMA LOCAL` for unlimited local models.
 6. Start Shopno CLI and work from the command center.
+7. Paste large context with `<<< ... >>>` when needed.
+8. If the CLI closes or hangs, restart and run `/resume-latest`.
 
 If the same account is active on another device, Shopno shows a device conflict and lets the user clear all previous sessions before logging in again.
 
@@ -115,22 +136,18 @@ If the same account is active on another device, Shopno shows a device conflict 
 
 Shopno can expose premium model names while hiding all provider details.
 
-Users may see model names such as:
+Users may see categories such as:
 
-- Llama 3.3 70B Versatile
-- Step 3.7 Flash
-- Step 3.5 Flash
-- Nemotron 3 Super 120B
-- Nemotron 3 Nano 30B
-- GPT OSS 120B
-- DeepSeek V4 Flash
-- Qwen 3.5 397B
-- Kimi K2.6
-- Claude Haiku 4.5
-- GPT-5 Mini
-- Gemini 3.5 Flash
-- Gemini 3.1 Pro
-- Local Ollama Models
+- GPT coding models
+- Claude coding models
+- Gemini models
+- NVIDIA models
+- OpenRouter models
+- Groq models
+- Pollinations models
+- GitHub Copilot models
+- Codex login models
+- Ollama local models
 
 The exact list is controlled from the admin panel by plan, availability, and business cost.
 
@@ -157,9 +174,13 @@ Shopno-CLI.exe
 README.md
 LICENSE.md
 USER_GUIDE.md
+SHOPNO_HANDBOOK.md
+SHOPNO_HANDBOOK.pdf
+SHOPNO_USER_A_TO_Z_BOOK.md
+SHOPNO_USER_A_TO_Z_BOOK.pdf
+RELEASE_NOTES_v1.0.3.md
 SECURITY.md
 BINARY_DISTRIBUTION.md
-assets/shopno_logo.png
 ```
 
 Do not publish:
@@ -204,6 +225,18 @@ A static GitHub Pages landing page is available in:
 github-pages/index.html
 ```
 
+Repository:
+
+```text
+https://github.com/CyberPrince-Alien/Shopno-AI
+```
+
+Expected GitHub Pages URL after enabling Pages:
+
+```text
+https://cyberprince-alien.github.io/Shopno-AI/
+```
+
 It can run from a GitHub Pages domain. Login, register, support, dashboard, download portal, and version history redirect to the live Shopno server:
 
 ```text
@@ -211,6 +244,78 @@ https://surveymentor.org/shopno
 ```
 
 When the final domain is ready, update `SHOPNO_SERVER` inside `github-pages/index.html`.
+
+---
+
+## Android Remote App
+
+Phase 1 Android remote-control source is available in:
+
+```text
+android-remote/
+```
+
+It supports:
+
+- Shopno account login
+- device-bound session handling
+- logout-all-session recovery
+- managed cloud model list
+- prompt sending to the Shopno SaaS gateway
+- streaming AI response display
+
+This is a cloud remote app. Full PC file editing and terminal execution will require the next phase PC-side remote agent.
+
+Build it with Android Studio:
+
+```text
+Open android-remote > Build > Build Bundle(s) / APK(s) > Build APK(s)
+```
+
+---
+
+## Built-In Creative Core
+
+Shopno includes local-first command modules that do not require copying external project folders:
+
+```text
+shopno motion status
+shopno music status
+shopno voice status
+shopno automate status
+shopno automate connectors
+shopno automate create-social --name "Blog distribution"
+shopno automate configure wordpress --profile "main-site"
+shopno automate run-all
+shopno automate share 1 --title "My Blog" --url "https://example.com/post" --excerpt "Short summary"
+shopno research status
+shopno research add README.md --notebook project
+shopno research search "provider routing"
+shopno upgrades
+shopno design audit
+shopno design init
+shopno voice profiles
+shopno voice say "I am ready to help" --dry-run
+```
+
+Voice Core is designed for low-resource PCs. It starts with typed fallback, detects optional local speech engines such as Windows SAPI or `pyttsx3`, and stores voice profiles in Shopno state. Voice clone sample registration is consent-gated and should only be used for your own voice or a voice you have permission to use.
+
+Evidence Notebook Core stores files and URLs as source cards with summaries, tags, confidence, and stable source IDs. Shopno uses it for reference-heavy work so claims can be tied back to evidence instead of chat memory.
+
+Design Quality Gate audits frontend and visual artifacts before Shopno calls them done. It checks for a design contract, generic AI-slop patterns, responsive signals, accessibility basics, real asset usage, and verification readiness.
+
+In chat, these slash commands are available:
+
+```text
+/motion
+/music
+/voice
+/research
+/upgrades
+/voice profiles
+/voice persona
+/voice say <text>
+```
 
 ---
 
